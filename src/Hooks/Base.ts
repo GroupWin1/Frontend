@@ -1,37 +1,15 @@
-import { useEffect, useState } from "react";
 import config from "../config";
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { WeatherModel } from "../models/weather-model";
 
-const useFetchData = () => {
-    const { data } = useQuery<WeatherModel[], AxiosError>({
-        queryKey: ["weathers1"],
+function useFetchData<T>(apiRoute: string) {
+    return useQuery<T[], AxiosError>({
+        queryKey: ["weathers"],
         queryFn: () =>
-            axios.get(`${config.baseApiUrl}/WeatherForecast`).then((resp) => resp.data)
-    });
-    return data;
-    // return useQuery<WeatherModel[], AxiosError>({
-    //     queryKey: ["weathers"],
-    //     queryFn: () =>
-    //         axios.get(`${config.baseApiUrl}/WeatherForecast`).then((resp) => resp.data)
-    // });
-}
-export const useFetchData2 = () => {
-    const { data, error } = useQuery<WeatherModel[], AxiosError>({
-        queryKey: ["weathers2"],
-        queryFn: () =>
-            axios.get(`${config.baseApiUrl}/WeatherForecast`).then((resp) => resp.data)
-    });
-    return { data, error };
-}
-export const useFetchData3 = () => {
-    return useQuery<WeatherModel[], AxiosError>({
-        queryKey: ["weathers3"],
-        queryFn: () =>
-            axios.get(`${config.baseApiUrl}/WeatherForecast`).then((resp) => resp.data)
+            axios.get(`${config.baseApiUrl}/${apiRoute}`).then((resp) => resp.data)
     });
 }
+
 // function useFetchData<T>(apiRoute: string) {
 //     const [data, setWeathers] = useState<T[]>([]);
 
